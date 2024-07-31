@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "Connexion",
+    "name": "Nom",
+    "password": "Mot de passe",
+    "button": "Connexion",
+    "signupPrompt": "Vous n'avez pas de compte?",
+    "signupLink": "S'inscrire",
+    "nameError": "Le nom ne peut contenir que des lettres, des chiffres, des espaces et des underscores.",
+    "successMessage": "Connexion réussie",
+    "errorMessage": "Identifiants invalides"
+  }
+}

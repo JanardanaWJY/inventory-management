@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "Iniciar sesión",
+    "name": "Nombre",
+    "password": "Contraseña",
+    "button": "Iniciar sesión",
+    "signupPrompt": "¿No tienes una cuenta?",
+    "signupLink": "Regístrate",
+    "nameError": "El nombre solo puede contener letras, números, espacios y guiones bajos.",
+    "successMessage": "Inicio de sesión exitoso",
+    "errorMessage": "Credenciales inválidas"
+  }
+}

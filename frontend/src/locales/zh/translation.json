@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "登录",
+    "name": "名字",
+    "password": "密码",
+    "button": "登录",
+    "signupPrompt": "没有账户？",
+    "signupLink": "注册",
+    "nameError": "名称只能包含字母、数字、空格和下划线。",
+    "successMessage": "登录成功",
+    "errorMessage": "无效的凭证"
+  }
+}

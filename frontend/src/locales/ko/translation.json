@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "로그인",
+    "name": "이름",
+    "password": "비밀번호",
+    "button": "로그인",
+    "signupPrompt": "계정이 없으신가요?",
+    "signupLink": "가입하기",
+    "nameError": "이름에는 문자, 숫자, 공백 및 밑줄만 사용할 수 있습니다.",
+    "successMessage": "성공적으로 로그인되었습니다",
+    "errorMessage": "유효하지 않은 자격 증명"
+  }
+}

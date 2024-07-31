@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "Masuk",
+    "name": "Nama",
+    "password": "Kata Sandi",
+    "button": "Masuk",
+    "signupPrompt": "Belum punya akun?",
+    "signupLink": "Daftar",
+    "successMessage": "Berhasil masuk",
+    "errorMessage": "Kredensial tidak valid",
+    "nameError": "Nama hanya boleh berisi huruf, angka, spasi, dan garis bawah."
+  }
+}

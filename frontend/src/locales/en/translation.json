@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "Login",
+    "name": "Name",
+    "password": "Password",
+    "button": "Login",
+    "signupPrompt": "Don't have an account?",
+    "signupLink": "Sign Up",
+    "nameError": "Name can only contain letters, numbers, spaces, and underscores.",
+    "successMessage": "Logged in successfully",
+    "errorMessage": "Invalid credentials"
+  }
+}

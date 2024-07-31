@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "ログイン",
+    "name": "名前",
+    "password": "パスワード",
+    "button": "ログイン",
+    "signupPrompt": "アカウントをお持ちではありませんか？",
+    "signupLink": "サインアップ",
+    "nameError": "名前には文字、数字、スペース、アンダースコアのみを使用できます。",
+    "successMessage": "ログインに成功しました",
+    "errorMessage": "無効な資格情報"
+  }
+}
