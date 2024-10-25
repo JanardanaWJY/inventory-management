@@ -12,10 +12,8 @@ const port = 8080;
 const pool = mariadb.createPool({
   host: 'localhost',
   port: 3306,
-  //host: '192.168.0.221',
-  //port: 33066,
   user: 'root',
-  password: '1@mariadbJNR107',
+  password: '',
   database: 'inventory_management',
   connectionLimit: 5
 });
