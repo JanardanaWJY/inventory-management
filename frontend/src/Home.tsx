@@ -61,14 +61,8 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
   const [showAddRentalOptionsModal, setShowAddRentalOptionsModal] = useState(false);
   const [selectedProductSN, setSelectedProductSN] = useState<string | null>(null);
   const [rentals, setRentals] = useState<Rental[]>([]);
-  const [newRental, setNewRental] = useState<Omit<Rental, 'product_sn'>>({
-    start_date: new Date(),
-    transaction_type: 0,
-    end_date: null,
-    qty: 0,
-    description: ''
-  });
   const [editRental, setEditRental] = useState<Rental | null>(null);
+
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
@@ -108,7 +102,7 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
   }, []);
 
   useEffect(() => {
-    const filtered = products.filter(product => 
+    const filtered = products.filter(product =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.product_sn.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -185,7 +179,10 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
     }
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, setProduct: React.Dispatch<React.SetStateAction<Omit<Product, 'product_sn'>>>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    setProduct: React.Dispatch<React.SetStateAction<Omit<Product, 'product_sn'>>>
+  ) => {
     const { name, value } = e.target;
     setProduct(prevState => ({
       ...prevState,
@@ -195,13 +192,20 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
 
   const handleEditInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setEditProduct(prevState => prevState ? ({
-      ...prevState,
-      [name]: name === 'price' ? parseFloat(value) : value
-    }) : null);
+    setEditProduct(prevState =>
+      prevState
+        ? ({
+          ...prevState,
+          [name]: name === 'price' ? parseFloat(value) : value
+        })
+        : null
+    );
   };
 
-  const handleDateChange = (date: Date | null, setProduct: React.Dispatch<React.SetStateAction<Omit<Product, 'product_sn'>>>) => {
+  const handleDateChange = (
+    date: Date | null,
+    setProduct: React.Dispatch<React.SetStateAction<Omit<Product, 'product_sn'>>>
+  ) => {
     if (date) {
       setProduct(prevState => ({
         ...prevState,
@@ -212,52 +216,38 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
 
   const handleEditDateChange = (date: Date | null) => {
     if (date) {
-      setEditProduct(prevState => prevState ? ({
-        ...prevState,
-        purchase_date: date
-      }) : null);
+      setEditProduct(prevState =>
+        prevState
+          ? ({
+            ...prevState,
+            purchase_date: date
+          })
+          : null
+      );
     }
   };
 
-  const handleRentalInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, setRental: React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>>) => {
+  const handleRentalInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    setRental: React.Dispatch<React.SetStateAction<any>>
+  ) => {
     const { name, value } = e.target;
-    setRental(prevState => ({
+    setRental((prevState: any) => ({
       ...prevState,
       [name]: name === 'qty' || name === 'transaction_type' ? parseFloat(value) : value
     }));
   };
 
-  const handleRentalDateChange = (date: Date | null, setRental: React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>>, field: 'start_date' | 'end_date') => {
+  const handleRentalDateChange = (
+    date: Date | null,
+    setRental: React.Dispatch<React.SetStateAction<any>>,
+    field: 'start_date' | 'end_date'
+  ) => {
     if (date) {
-      setRental(prevState => ({
+      setRental((prevState: any) => ({
         ...prevState,
         [field]: date
       }));
-    }
-  };
-
-  const handleAddRental = async () => {
-    if (!newRental.start_date || !newRental.transaction_type || !newRental.qty) {
-      toast.error('Please fill out all required fields.');
-      return;
-    }
-
-    try {
-      console.log("Adding rental:", { ...newRental, product_sn: selectedProductSN });
-      await axios.post('http://localhost:8080/rentals', { ...newRental, product_sn: selectedProductSN });
-      fetchRentals(selectedProductSN as string);
-      setShowAddRentalOptionsModal(false);
-      setNewRental({
-        start_date: new Date(),
-        transaction_type: 0,
-        end_date: null,
-        qty: 0,
-        description: ''
-      });
-      toast.success('Rental record added successfully');
-    } catch (error) {
-      console.error('Error adding rental record:', error);
-      toast.error('Failed to add rental record');
     }
   };
 
@@ -265,7 +255,10 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
     if (editRental) {
       try {
         console.log("Editing rental:", editRental);
-        await axios.put(`http://localhost:8080/rentals/${editRental.product_sn}/${editRental.start_date.toISOString()}`, editRental);
+        await axios.put(
+          `http://localhost:8080/rentals/${editRental.product_sn}/${editRental.start_date.toISOString()}`,
+          editRental
+        );
         fetchRentals(editRental.product_sn);
         setEditRental(null);
         toast.success('Rental record updated successfully');
@@ -753,7 +746,7 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
                     <label htmlFor="edit_rental_start_date" className="block text-sm font-medium">Start Date</label>
                     <DatePicker
                       selected={editRental.start_date}
-                      onChange={(date) => handleRentalDateChange(date as Date, setEditRental as React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>>, 'start_date')}
+                      onChange={(date) => handleRentalDateChange(date as Date, setEditRental as any, 'start_date')}
                       showTimeSelect
                       dateFormat="Pp"
                       popperClassName="react-datepicker-popper"
@@ -762,7 +755,7 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
                     <label htmlFor="edit_rental_end_date" className="block text-sm font-medium">End Date</label>
                     <DatePicker
                       selected={editRental.end_date}
-                      onChange={(date) => handleRentalDateChange(date as Date, setEditRental as React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>>, 'end_date')}
+                      onChange={(date) => handleRentalDateChange(date as Date, setEditRental as any, 'end_date')}
                       showTimeSelect
                       dateFormat="Pp"
                       popperClassName="react-datepicker-popper"
@@ -775,7 +768,7 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
                       type="number"
                       required
                       value={editRental.transaction_type}
-                      onChange={(e) => handleRentalInputChange(e, setEditRental as React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>> )}
+                      onChange={(e) => handleRentalInputChange(e, setEditRental as any)}
                       className={`mt-1 block w-full h-7 p-1.5 border-0 ring-1 ring-inset ${isDarkMode ? 'ring-gray-700 bg-gray-700 text-white' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 shadow-sm sm:text-sm rounded-md`}
                     />
                     <label htmlFor="edit_rental_qty" className="block text-sm font-medium">Quantity</label>
@@ -785,7 +778,7 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
                       type="number"
                       required
                       value={editRental.qty}
-                      onChange={(e) => handleRentalInputChange(e, setEditRental as React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>> )}
+                      onChange={(e) => handleRentalInputChange(e, setEditRental as any)}
                       className={`mt-1 block w-full h-7 p-1.5 border-0 ring-1 ring-inset ${isDarkMode ? 'ring-gray-700 bg-gray-700 text-white' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 shadow-sm sm:text-sm rounded-md`}
                     />
                     <label htmlFor="edit_rental_description" className="block text-sm font-medium">Description</label>
@@ -793,7 +786,7 @@ const Home: React.FC<HomeProps> = ({ setIsLoggedIn }) => {
                       id="edit_rental_description"
                       name="description"
                       value={editRental.description}
-                      onChange={(e) => handleRentalInputChange(e, setEditRental as React.Dispatch<React.SetStateAction<Omit<Rental, 'product_sn'>>> )}
+                      onChange={(e) => handleRentalInputChange(e, setEditRental as any)}
                       className={`mt-1 block w-full p-1.5 border-0 ring-1 ring-inset ${isDarkMode ? 'ring-gray-700 bg-gray-700 text-white' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 shadow-sm sm:text-sm rounded-md`}
                     ></textarea>
                   </div>
