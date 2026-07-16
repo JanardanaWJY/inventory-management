@@ -8,6 +8,7 @@ import eyeOpen from './assets/logo/eye-open.png';
 import eyeClosed from './assets/logo/eye-closed.png';
 import ThemeToggle from './components/ThemeToggle';
 import { useTheme } from './ThemeContext';
+import { API_BASE_URL } from './api/api';
 
 interface Errors {
   name?: string;
@@ -57,7 +58,7 @@ function SignUp() {
     }
 
     try {
-      await axios.post('http://localhost:8080/register', {
+      await axios.post(`${API_BASE_URL}/register`, {
         password,
         name
       });

@@ -18,8 +18,8 @@ export type Rental = {
   description: string;
 };
 
-const DEMO_MODE = process.env.REACT_APP_DEMO_MODE === "true";
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+export const DEMO_MODE = process.env.REACT_APP_DEMO_MODE === "true";
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
 
 // ======================
 // DEMO STORE (in-memory)

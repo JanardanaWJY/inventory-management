@@ -8,6 +8,7 @@ import eyeOpen from './assets/logo/eye-open.png';
 import eyeClosed from './assets/logo/eye-closed.png';
 import ThemeToggle from './components/ThemeToggle';
 import { useTheme } from './ThemeContext';
+import { API_BASE_URL, DEMO_MODE } from './api/api';
 
 interface LoginProps {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
@@ -47,7 +48,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
     }
 
     try {
-      await axios.post('http://localhost:8080/login', {
+      await axios.post(`${API_BASE_URL}/login`, {
         name,
         password
       });
@@ -135,6 +136,24 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
                   {t('login.button')}
                 </button>
               </div>
+              {DEMO_MODE && (
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/demo')}
+                    className={`w-full flex justify-center py-2 px-4 border rounded-md shadow-sm text-sm font-medium ${
+                      isDarkMode
+                        ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600'
+                        : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                  >
+                    Continue Demo
+                  </button>
+                  <p className={`mt-2 text-center text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    Demo mode skips database authentication and opens sample inventory data.
+                  </p>
+                </div>
+              )}
             </form>
             <p className={`mt-2 text-center text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               {t('login.signupPrompt')}{' '}

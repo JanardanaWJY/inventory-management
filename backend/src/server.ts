@@ -7,14 +7,15 @@ import moment from 'moment';
 
 const app = express();
 app.use(cors());
-const port = 8080;
+const port = Number(process.env.PORT || 8080);
+const jwtSecret = process.env.JWT_SECRET || 'dev-only-change-me';
 
 const pool = mariadb.createPool({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: '',
-  database: 'inventory_management',
+  host: process.env.DB_HOST || 'localhost',
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'inventory_management',
   connectionLimit: 5
 });
 
@@ -93,11 +94,11 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { name, password } = req.body;
 
+  let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const sql = 'SELECT * FROM users WHERE BINARY Name = ?';
     const results = await conn.query(sql, [name]) as User[];
-    conn.release();
 
     if (results.length === 0) {
       return res.status(404).send('User not found');
@@ -114,11 +115,13 @@ app.post('/login', async (req, res) => {
     const updateSql = 'UPDATE users SET Last_Login_Date = ? WHERE id = ?';
     await conn.query(updateSql, [lastLoginDate, user.id]);
 
-    const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: 86400 });
+    const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: 86400 });
     res.status(200).send({ auth: true, token });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).send('Server error');
+  } finally {
+    conn?.release();
   }
 });
 
